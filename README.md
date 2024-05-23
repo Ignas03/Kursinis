@@ -18,19 +18,23 @@ As mentioned in previous step you have to enter the matrix into the input file a
  4 OOP pillars
 
   Encapsulation
+  
 Encapsulation is the bundling of data and methods that operate on that data within a single unit or class. It also involves restricting direct access to some of an object's components.
 The SudokuBoard class encapsulates the board data and provides methods to operate on this data, such as find_empty_cell, is_valid, solver, etc.
 The PuzzleBoard abstract class provides a general structure for the board and some shared functionality (__str__, read_from_file, write_to_file), encapsulating these details.
 
   Inheritance
+  
 Inheritance is a mechanism where a new class inherits the properties and behaviors (methods) of an existing class.
 SudokuBoard inherits from PuzzleBoard, gaining access to its attributes and methods. This allows SudokuBoard to use and extend the functionality provided by PuzzleBoard.
 
   Polymorphism
+  
 Polymorphism allows methods to do different things based on the object it is acting upon, even though they share the same name.
 The find_empty_cell, is_valid, and solver methods in the SudokuBoard class override the abstract methods defined in the PuzzleBoard class. This is an example of polymorphism where the base class defines the method signature and the derived class provides the specific implementation.
 
   Abstraction
+  
 Abstraction involves hiding complex implementation details and showing only the necessary features of an object.
 The PuzzleBoard class is an abstract base class (ABC) that defines the interface (find_empty_cell, is_valid, solver) without providing the implementation. This abstract class cannot be instantiated directly and requires subclasses to implement these methods. This provides a template for any type of puzzle board, ensuring they all have certain functionality while allowing specific implementations to vary.
 
