@@ -23,20 +23,113 @@ Encapsulation is the bundling of data and methods that operate on that data with
 The SudokuBoard class encapsulates the board data and provides methods to operate on this data, such as find_empty_cell, is_valid, solver, etc.
 The PuzzleBoard abstract class provides a general structure for the board and some shared functionality (__str__, read_from_file, write_to_file), encapsulating these details.
 
+class PuzzleBoard(ABC):
+
+    def __init__(self, board):
+        self.board = board
+
+    @abstractmethod
+    def find_empty_cell(self):
+        pass
+
+    @abstractmethod
+    def is_valid(self, empty, num):
+        pass
+
+    @abstractmethod
+    def solver(self):
+        pass
+
+    def __str__(self):
+        # Implementation for converting board to a string
+        pass
+
+    @classmethod
+    def read_from_file(cls, filename):
+        with open(filename, 'r') as file:
+            board = []
+            for line in file:
+                row = [int(num) for num in line.split()]
+                board.append(row)
+        return cls(board)
+
+    def write_to_file(self, filename):
+        with open(filename, 'w') as file:
+            for line in self.board:
+                file.write(' '.join(str(num) for num in line) + '\n')
+
+
   Inheritance
   
 Inheritance is a mechanism where a new class inherits the properties and behaviors (methods) of an existing class.
 SudokuBoard inherits from PuzzleBoard, gaining access to its attributes and methods. This allows SudokuBoard to use and extend the functionality provided by PuzzleBoard.
+
+class SudokuBoard(PuzzleBoard):
+
+    def find_empty_cell(self):
+        # Implementation to find an empty cell
+        pass
+
+    def valid_in_row(self, row, num):
+        # Implementation to check if a number is valid in a row
+        pass
+
+    def valid_in_col(self, col, num):
+        # Implementation to check if a number is valid in a column
+        pass
+
+    def valid_in_square(self, row, col, num):
+        # Implementation to check if a number is valid in a square
+        pass
+
+    def is_valid(self, empty, num):
+        # Implementation to check if a number is valid
+        pass
+
+    def solver(self):
+        # Implementation to solve the Sudoku
+        pass
+
 
   Polymorphism
   
 Polymorphism allows methods to do different things based on the object it is acting upon, even though they share the same name.
 The find_empty_cell, is_valid, and solver methods in the SudokuBoard class override the abstract methods defined in the PuzzleBoard class. This is an example of polymorphism where the base class defines the method signature and the derived class provides the specific implementation.
 
+class SudokuBoard(PuzzleBoard):
+
+    def find_empty_cell(self):
+        # Specific implementation for Sudoku
+        pass
+
+    def is_valid(self, empty, num):
+        # Specific implementation for Sudoku
+        pass
+
+    def solver(self):
+        # Specific implementation for Sudoku
+        pass
+
+
   Abstraction
   
 Abstraction involves hiding complex implementation details and showing only the necessary features of an object.
 The PuzzleBoard class is an abstract base class (ABC) that defines the interface (find_empty_cell, is_valid, solver) without providing the implementation. This abstract class cannot be instantiated directly and requires subclasses to implement these methods. This provides a template for any type of puzzle board, ensuring they all have certain functionality while allowing specific implementations to vary.
+
+class PuzzleBoard(ABC):
+
+    @abstractmethod
+    def find_empty_cell(self):
+        pass
+
+    @abstractmethod
+    def is_valid(self, empty, num):
+        pass
+
+    @abstractmethod
+    def solver(self):
+        pass
+
 
  Design patterns
  
@@ -46,6 +139,7 @@ The Template Method Pattern is a behavioral design pattern that defines the skel
 In this code, the PuzzleBoard abstract class defines the template for a puzzle board with abstract methods (find_empty_cell, is_valid, solver). The concrete class SudokuBoard implements these methods, providing specific behavior while following the overall structure laid out in the abstract class.
 
 class PuzzleBoard(ABC):
+
     @abstractmethod
     def find_empty_cell(self):
         pass
