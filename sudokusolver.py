@@ -1,22 +1,27 @@
 from abc import ABC, abstractmethod
-
+# Abstraction: PuzzleBoard is an abstract base class
 class PuzzleBoard(ABC):
     def __init__(self, board):
+        # Encapsulation: board is an attribute of the PuzzleBoard class
         self.board = board
 
     @abstractmethod
     def find_empty_cell(self):
+        # Abstraction: Abstract method to be implemented by subclasses
         pass
 
     @abstractmethod
     def is_valid(self, empty, num):
+        # Abstraction: Abstract method to be implemented by subclasses
         pass
 
     @abstractmethod
     def solver(self):
+        # Abstraction: Abstract method to be implemented by subclasses
         pass
 
     def __str__(self):
+        # Encapsulation: String representation of the board
         upper_lines = f'\n╔═══{"╤═══"*2}{"╦═══"}{"╤═══"*2}{"╦═══"}{"╤═══"*2}╗\n'
         middle_lines = f'╟───{"┼───"*2}{"╫───"}{"┼───"*2}{"╫───"}{"┼───"*2}╢\n'
         lower_lines = f'╚═══{"╧═══"*2}{"╩═══"}{"╧═══"*2}{"╩═══"}{"╧═══"*2}╝\n'
@@ -45,6 +50,7 @@ class PuzzleBoard(ABC):
 
     @classmethod
     def read_from_file(cls, filename):
+        # Encapsulation: Reading the board from a file
         with open(filename, 'r') as file:
             board = []
             for line in file:
@@ -53,12 +59,15 @@ class PuzzleBoard(ABC):
         return cls(board)
 
     def write_to_file(self, filename):
+        # Encapsulation: Writing the board to a file
         with open(filename, 'w') as file:
             for line in self.board:
                 file.write(' '.join(str(num) for num in line) + '\n')
 
+# Inheritance: SudokuBoard inherits from PuzzleBoard
 class SudokuBoard(PuzzleBoard):
     def find_empty_cell(self):
+        # Polymorphism: Specific implementation for Sudoku
         for row, contents in enumerate(self.board):
             try:
                 col = contents.index(0)
@@ -68,15 +77,18 @@ class SudokuBoard(PuzzleBoard):
         return None
 
     def valid_in_row(self, row, num):
+        # Polymorphism: Specific implementation for Sudoku
         return num not in self.board[row]
 
     def valid_in_col(self, col, num):
+        # Polymorphism: Specific implementation for Sudoku
         return all(
             self.board[row][col] != num
             for row in range(9)
         )
 
     def valid_in_square(self, row, col, num):
+        # Polymorphism: Specific implementation for Sudoku
         row_start = (row // 3) * 3
         col_start = (col // 3) * 3
         for row_no in range(row_start, row_start + 3):
@@ -86,6 +98,7 @@ class SudokuBoard(PuzzleBoard):
         return True
 
     def is_valid(self, empty, num):
+        # Polymorphism: Specific implementation for Sudoku
         row, col = empty
         valid_in_row = self.valid_in_row(row, num)
         valid_in_col = self.valid_in_col(col, num)
@@ -93,6 +106,7 @@ class SudokuBoard(PuzzleBoard):
         return all([valid_in_row, valid_in_col, valid_in_square])
 
     def solver(self):
+        # Polymorphism: Specific implementation for Sudoku
         if (next_empty := self.find_empty_cell()) is None:
             return True
         else:
